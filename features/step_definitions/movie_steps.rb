@@ -12,10 +12,12 @@ end
 #   on the same page
 
 #http://stackoverflow.com/questions/5886429/how-to-write-a-cucumber-step-to-test-if-a-list-of-elements-is-sorted
+
 Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   #  ensure that that e1 occurs before e2.
   #  page.body is the entire content of the page as a string.
-  flunk "Unimplemented"
+  #flunk "Unimplemented"
+  page.body.index(e1).should < page.body.index(e2)
 end
 
 # Make it easier to express checking or unchecking several boxes at once
@@ -29,7 +31,7 @@ When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
   rating_list.split(%r{,\s*}).each {|rating| step %Q(I #{uncheck}check "ratings_#{rating}")}
 end
 
-Then /I should see all of the movies/ do
+Then /I should see all of the movies/ do  
   page.all('table#movies tr').count.should == 11  
   page.should have_css("table#movies tr", :count=>11)
 end
